@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Farm Coverage Planner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha512-sA+e2q5eTNsSX8f7J0qdbH4i1Cdm42Hcps225y7sY9qsK0kGugHgdGXN53BJ38qJNmPR9UCeFcp2KZL0v1hPgw=="
+      crossorigin=""
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Farm Coverage Planner</h1>
+      <p>
+        Use this tool to plan tractor spray paths and track actual coverage.
+        The backend API should be running on <code>http://localhost:5000</code>.
+      </p>
+    </header>
+
+    <main>
+      <section class="controls">
+        <div class="panel">
+          <h2>Coverage Planning</h2>
+          <label>
+            Farm Boundary (JSON array of [lon, lat])
+            <textarea id="boundary-input" rows="6"></textarea>
+          </label>
+          <label>
+            Excluded Patches / Holes (JSON array of polygon arrays)
+            <textarea id="holes-input" rows="4"></textarea>
+          </label>
+          <div class="inline-fields">
+            <label>
+              Spray Width (degrees)
+              <input type="number" id="spray-width-input" placeholder="0.0002" step="0.00001" />
+            </label>
+            <label>
+              Angle Resolution (degrees)
+              <input type="number" id="angle-resolution-input" placeholder="5" step="0.5" />
+            </label>
+          </div>
+          <label class="checkbox">
+            <input type="checkbox" id="include-deadhead-input" checked />
+            Include deadhead (boom-off) segments
+          </label>
+          <div class="actions">
+            <button id="load-example-btn">Load Example</button>
+            <button id="plan-btn">Plan Coverage</button>
+          </div>
+          <pre id="plan-summary" class="output"></pre>
+        </div>
+
+        <div class="panel">
+          <h2>Coverage Tracking</h2>
+          <label>
+            Tractor Track (JSON array of [lon, lat])
+            <textarea id="track-input" rows="6"></textarea>
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" id="use-plan-boundary" checked />
+            Use boundary/holes from planner form
+          </label>
+          <div class="actions">
+            <button id="track-btn">Analyse Track</button>
+          </div>
+          <pre id="track-summary" class="output"></pre>
+        </div>
+      </section>
+
+      <section class="map-section">
+        <div id="map"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Built with <a href="https://leafletjs.com/" target="_blank" rel="noreferrer">Leaflet</a>.
+        Edit <code>frontend/app.js</code> to customise behaviour.
+      </p>
+    </footer>
+
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha512-vDkA2PKx4u5asJ5AZt0pOEtpJR/YWZLxE+nobVhtSGcVwqDAVBBusfvEvFJi1dCdm20HcQc2251fL/2p2Z8Kxg=="
+      crossorigin=""
+    ></script>
+    <script src="app.js"></script>
+  </body>
+</html>
+
